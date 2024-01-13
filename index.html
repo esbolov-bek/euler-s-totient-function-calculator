@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euler's Totient Function Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background: linear-gradient(to bottom, #ff6b6b, #ffe066); /* Gradient foni (yangi ranglar) */
+            color: #333; /* Barcha matn rangi */
+        }
+        .nav{
+            padding: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+        .nav__content{
+            gap: 25px;
+        }
+        h1 {
+            color: #fff; /* Sarlavha rangi (qoldirilmagan) */
+            text-decoration: underline; /* Sarlavha chizilishi */
+            font-size: 2em; /* Sarlavha o'lchami */
+            margin-bottom: 20px; /* Sarlavha pastki bo'lgan bo'sh joyi */
+        }
+        label {
+            margin-right: 10px; /* Label va input orasidagi masofani o'zgartiring */
+            color: #fff; /* Label rangi (qoldirilmagan) */
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #27ae60; /* Natijaning rangi */
+            font-size: 1.2em; /* Natija matni o'lchami */
+        }
+        input {
+            padding: 12px;
+            border: 2px solid #fff; /* Input ramkasi */
+            border-radius: 8px; /* Inputning engilayilgan yonida qirraligini o'zgartiring */
+            color: #333; /* Input matni rangi */
+            background-color: rgba(255, 255, 255, 0.9); /* Havo rangli fon, chiroyliroq bo'lishi uchun */
+            transition: background-color 0.3s ease; /* O'zgartirishlarni chiroyliroq ko'rsatish */
+        }
+        input:hover {
+            background-color: rgba(255, 255, 255, 1); /* Input ustida chiquvchilarida chiroyliroq rang ko'rsatish */
+        }
+        button {
+            padding: 14px 28px;
+            background-color: #27ae60; /* Tugma fon rangi */
+            color: #fff; /* Tugma matni rangi */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em; /* Tugma matni o'lchami */
+            transition: background-color 0.3s ease; /* O'zgartirishlarni chiroyliroq ko'rsatish */
+        }
+        button:hover {
+            background-color: #218c56; /* Tugma fon rangi hover bo'lganda */
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <h1>Eylerning Totient funktsiyasi kalkulyatori</h1>
+    <div class="nav__content">    
+    <label for="numberInput">Raqam kiriting:</label>
+    <input type="number" id="numberInput" min="2" step="0.1" placeholder="Raqam kiriting">
+    <button onclick="calculate()">Hisoblash</button>
+    </div>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        function eulerPhi(n) {
+            let result = n;
+            for (let i = 2; i * i <= n; ++i) {
+                if (n % i === 0) {
+                    while (n % i === 0) {
+                        n /= i;
+                    }
+                    result -= result / i;
+                }
+            }
+            if (n > 1) {
+                result -= result / n;
+            }
+            return result;
+        }
+
+        function calculate() {
+            let numberInput = document.getElementById("numberInput").value;
+            if (!numberInput) {
+                alert("Please enter a valid number.");
+                return;
+            }
+
+            let number = parseInt(numberInput);
+            let eulerRes = eulerPhi(number);
+            let arrBirIl = [];
+
+            for (let i = 2; i < number; i++) {
+                if (Math.pow(i, eulerRes) % number === 1) {
+                    let key = true;
+                    for (let j = 2; j < eulerRes; j++) {
+                        if (Math.pow(i, j) % number === 1) {
+                            key = false;
+                            break;
+                        }
+                    }
+                    if (key) arrBirIl.push(i);
+                }
+            }
+
+            let resultElement = document.getElementById("result");
+            resultElement.innerHTML = `Eyler funktsiyasi qiymati: ${eulerRes} ${arrBirIl.join(', ')}`;
+        }
+    </script>
+</body>
+</html>
+
+
+    
+
+
+    
+    
+
+
+
+
+
